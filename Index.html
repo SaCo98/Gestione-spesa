@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestore Diete e Spesa</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Gestore Diete e Lista della Spesa</h1>
+      <p>Organizza alimenti, pasti settimanali e crea la lista della spesa in modo automatico</p>
+    </div>
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('compare')">Dashboard</button>
+  <button class="tab" onclick="switchTab('diet')">Dieta</button>
+  <button class="tab" onclick="switchTab('shopping')">Lista Spesa</button>
+  <button class="tab" onclick="switchTab('config')">Configurazione</button>
+</div>
+
+<!-- SEZIONE DASHBOARD -->
+<div id="compare" class="tab-content active">
+  <div class="section">
+    <h2>Dashboard</h2>
+
+    <div class="day-selector">
+      <button class="day-btn" onclick="selectCompareDay('Lunedì')">Lunedì</button>
+      <button class="day-btn" onclick="selectCompareDay('Martedì')">Martedì</button>
+      <button class="day-btn" onclick="selectCompareDay('Mercoledì')">Mercoledì</button>
+      <button class="day-btn" onclick="selectCompareDay('Giovedì')">Giovedì</button>
+      <button class="day-btn" onclick="selectCompareDay('Venerdì')">Venerdì</button>
+      <button class="day-btn" onclick="selectCompareDay('Sabato')">Sabato</button>
+      <button class="day-btn" onclick="selectCompareDay('Domenica')">Domenica</button>
+    </div>
+
+    <div id="compareContainer" class="compare-grid">
+      <div class="compare-person">
+        <h3>👩 Sara</h3>
+        <div id="comparePerson1"></div>
+      </div>
+      <div class="compare-person">
+        <h3>👨 Luca</h3>
+        <div id="comparePerson2"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <!-- SEZIONE CONFIGURAZIONE -->
+<div id="config" class="tab-content">
+
+  <div class="config-sections">
+
+    <!-- 🔹 GESTIONE ALIMENTI -->
+    <div class="section">
+      <h2>Alimenti</h2>
+
+      <div class="form-group">
+        <label for="newFood">Aggiungi Alimento</label>
+        <input type="text" id="newFood" placeholder="Es. Pasta">
+      </div>
+
+      <div class="form-group">
+        <label for="newFoodDept">Reparto</label>
+        <select id="foodDeptSelect"></select>
+      </div>
+
+      <button onclick="addFood()" class="btn-success">➕ Aggiungi</button>
+
+      <h3>Alimenti</h3>
+      <input type="text" id="foodSearch" placeholder="🔍 Cerca alimento o reparto" oninput="onFoodSearch(event)">
+
+      <div class="scroll-box">
+        <div id="foodList"></div>
+      </div>
+    </div>
+
+    <!-- 🔹 GESTIONE REPARTI -->
+    <div class="section">
+      <h2>Reparti</h2>
+
+      <div class="form-group">
+        <label for="newDept">Aggiungi Reparto</label>
+        <input type="text" id="newDept" placeholder="Es. Ortofrutta">
+      </div>
+
+      <button onclick="addDepartment()" class="btn-success">➕ Aggiungi</button>
+
+      <h3>Reparti</h3>
+      <input type="text" id="deptSearch" placeholder="🔍 Cerca reparto" oninput="onDeptSearch(event)">
+
+      <div class="scroll-box">
+        <div id="deptList"></div>
+      </div>
+    </div>
+
+    <!-- 🔹 GESTIONE NOMI PERSONE -->
+    <div class="section">
+      <h2>Utenti</h2>
+
+      <div class="form-group">
+        <label for="person1Name">Utente 1</label>
+        <input type="text" id="person1Name" placeholder="Es. Sara" onchange="updatePersonName('person1', this.value)">
+      </div>
+
+      <div class="form-group">
+        <label for="person1Emoji">Emoji</label>
+        <select id="person1Emoji" onchange="updatePersonEmoji('person1', this.value)">
+          <option value="👩">👩 Donna</option>
+          <option value="👨">👨 Uomo</option>
+          <option value="👧">👧 Ragazza</option>
+          <option value="👦">👦 Ragazzo</option>
+          <option value="🧑">🧑 Persona</option>
+          <option value="👶">👶 Bambino</option>
+          <option value="👵">👵 Nonna</option>
+          <option value="👴">👴 Nonno</option>
+          <option value="🧒">🧒 Bambino/a</option>
+          <option value="🧓">🧓 Anziano/a</option>
+          <option value="🤴">🤴 Principe</option>
+          <option value="👸">👸 Principessa</option>
+          <option value="🦸">🦸 Supereroe</option>
+          <option value="🦹">🦹 Supercattivo</option>
+          <option value="🧙">🧙 Mago/a</option>
+          <option value="🧚">🧚 Fata</option>
+          <option value="🧛">🧛 Vampiro</option>
+          <option value="🧜">🧜 Sirena</option>
+          <option value="🧝">🧝 Elfo</option>
+          <option value="🧞">🧞 Genio</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="person2Name">Utente 2</label>
+        <input type="text" id="person2Name" placeholder="Es. Luca" onchange="updatePersonName('person2', this.value)">
+      </div>
+
+      <div class="form-group">
+        <label for="person2Emoji">Emoji</label>
+        <select id="person2Emoji" onchange="updatePersonEmoji('person2', this.value)">
+          <option value="👩">👩 Donna</option>
+          <option value="👨">👨 Uomo</option>
+          <option value="👧">👧 Ragazza</option>
+          <option value="👦">👦 Ragazzo</option>
+          <option value="🧑">🧑 Persona</option>
+          <option value="👶">👶 Bambino</option>
+          <option value="👵">👵 Nonna</option>
+          <option value="👴">👴 Nonno</option>
+          <option value="🧒">🧒 Bambino/a</option>
+          <option value="🧓">🧓 Anziano/a</option>
+          <option value="🤴">🤴 Principe</option>
+          <option value="👸">👸 Principessa</option>
+          <option value="🦸">🦸 Supereroe</option>
+          <option value="🦹">🦹 Supercattivo</option>
+          <option value="🧙">🧙 Mago/a</option>
+          <option value="🧚">🧚 Fata</option>
+          <option value="🧛">🧛 Vampiro</option>
+          <option value="🧜">🧜 Sirena</option>
+          <option value="🧝">🧝 Elfo</option>
+          <option value="🧞">🧞 Genio</option>
+        </select>
+      </div>
+
+      <button onclick="savePersonNames()" class="btn-success">💾 Salva Nomi</button>
+    </div>
+
+  </div>
+
+  <!-- 🔹 GESTIONE FILE CONFIGURAZIONE -->
+  <div class="section">
+    <h2>Gestione File Configurazione</h2>
+
+    <div class="button-group">
+      <button onclick="downloadConfig()">📥 Scarica Configurazione</button>
+      <input type="file" id="uploadConfig" accept=".json" onchange="loadConfig(event)">
+    </div>
+
+    <div class="config-actions" style="margin-top: 10px;">
+      <button onclick="resetLocalData()" class="btn-danger">🧹 Reimposta tutto</button>
+      <p style="font-size: 0.9em; color: #666; margin-top: 5px;">
+        Cancella tutti i dati salvati localmente (alimenti, reparti e diete) e ripristina i valori predefiniti.
+      </p>
+    </div>
+
+    <div class="form-group" style="margin-top:20px;">
+      <label for="configJson">Modifica Configurazione JSON</label>
+      <textarea id="configJson"></textarea>
+      <button onclick="saveConfigFromJson()" class="btn-success" style="margin-top:10px;">💾 Salva Modifiche</button>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+    <!-- SEZIONE DIETA -->
+    <div id="diet" class="tab-content">
+      <div class="section">
+        <h2>Inserisci Dieta</h2>
+
+        <div class="form-group">
+          <label for="personSelect">Persona</label>
+          <div class="form-group">
+  <div class="person-cards">
+    <div class="person-card active" data-person="person1" onclick="selectPersonCard(this)">👤 Sara</div>
+    <div class="person-card" data-person="person2" onclick="selectPersonCard(this)">👤 Luca</div>
+  </div>
+</div>
+
+        </div>
+
+<div class="form-group">
+  <label>Giorno</label>
+  <div class="day-buttons">
+    <button type="button" class="day-btn active" data-day="Lunedì">Lunedì</button>
+    <button type="button" class="day-btn" data-day="Martedì">Martedì</button>
+    <button type="button" class="day-btn" data-day="Mercoledì">Mercoledì</button>
+    <button type="button" class="day-btn" data-day="Giovedì">Giovedì</button>
+    <button type="button" class="day-btn" data-day="Venerdì">Venerdì</button>
+    <button type="button" class="day-btn" data-day="Sabato">Sabato</button>
+    <button type="button" class="day-btn" data-day="Domenica">Domenica</button>
+  </div>
+</div>
+
+
+        <div class="form-group">
+  <label>Pasto</label>
+  <div class="meal-buttons">
+    <button type="button" class="meal-btn active" data-meal="Colazione">Colazione</button>
+    <button type="button" class="meal-btn" data-meal="Spuntino">Spuntino</button>
+    <button type="button" class="meal-btn" data-meal="Pranzo">Pranzo</button>
+    <button type="button" class="meal-btn" data-meal="Merenda">Merenda</button>
+    <button type="button" class="meal-btn" data-meal="Cena">Cena</button>
+  </div>
+</div>
+
+
+        <div class="form-group" style="position: relative;">
+  <label for="foodSearchInput">Alimento</label>
+  <input type="text" id="foodSearchInput" placeholder="Inizia a scrivere per cercare..." autocomplete="off">
+  <div id="foodSuggestions" class="suggestion-box"></div>
+</div>
+
+
+        <div class="form-group">
+  <label for="quantityInput">Quantità</label>
+  <div style="display: flex; gap: 6px;">
+    <input type="text" id="quantityInput" placeholder="Es. 150" style="flex: 1;">
+    <select id="unitSelect" style="width: 80px;">
+      <option value="g">g</option>
+      <option value="ml">ml</option>
+      <option value="pz">pz</option>
+      <option value="-">-</option>
+    </select>
+  </div>
+</div>
+
+
+       
+<div class="form-group">
+  <label for="deptInput">Reparto</label>
+  <input type="text" id="deptInput" placeholder="Selezionare un alimento."  readonly>
+</div>
+
+        <button onclick="addMealToDiet()" class="btn-success">➕ Aggiungi Pasto</button>
+      </div>
+
+     <div class="section">
+  <div class="section-header" style="display: flex; align-items: center; justify-content: space-between;">
+    <h2>Dieta Corrente</h2>
+    <button onclick="resetDiet()" class="btn-danger small-btn">🧹 Resetta Dieta</button>
+  </div>
+  <div id="currentDiet"></div>
+</div>
+
+
+      <div class="section">
+        <h2>Gestione File Diete</h2>
+        <div class="button-group">
+          <button onclick="downloadDiet()">📥 Scarica Diete</button>
+          <input type="file" id="uploadDiet" accept=".json" onchange="loadDiet(event)">
+        </div>
+      </div>
+    </div>
+
+    <!-- SEZIONE LISTA SPESA -->
+           <div id="shopping" class="tab-content">
+            <div class="section">
+                <h2>Seleziona Giorni</h2>
+                <div class="day-selector">
+                    <button class="day-btn" onclick="toggleDay('Lunedì')">Lunedì</button>
+                    <button class="day-btn" onclick="toggleDay('Martedì')">Martedì</button>
+                    <button class="day-btn" onclick="toggleDay('Mercoledì')">Mercoledì</button>
+                    <button class="day-btn" onclick="toggleDay('Giovedì')">Giovedì</button>
+                    <button class="day-btn" onclick="toggleDay('Venerdì')">Venerdì</button>
+                    <button class="day-btn" onclick="toggleDay('Sabato')">Sabato</button>
+                    <button class="day-btn" onclick="toggleDay('Domenica')">Domenica</button>
+                </div>
+                
+                <div class="person-toggle">
+                    <label>
+                        <input type="checkbox" id="includePerson1" checked onchange="updateShoppingListFromSelection()">
+                        Sara
+                    </label>
+                    <label>
+                        <input type="checkbox" id="includePerson2" checked onchange="updateShoppingListFromSelection()">
+                        Luca
+                    </label>
+                </div>
+
+                <!-- <button onclick="generateShoppingList()">🛒 Genera Lista della Spesa</button> -->
+            </div>
+
+            <div class="section" id="shoppingListSection">
+                <h2>Seleziona Alimenti da Acquistare</h2>
+                <p style="margin-bottom: 15px;">Deseleziona gli alimenti che hai già in casa:</p>
+                <div id="shoppingList"></div>
+
+                <button onclick="generateFinalList()" style="margin-top: 20px;" class="btn-success">✅ Aggiungi alla lista</button>
+
+                <h3 style="margin-top: 30px;">Aggiungi Alimenti Manualmente</h3>
+                <div class="manual-add">
+                    <div class="form-group" style="position: relative;">
+  <label for="manualFoodInput">Alimento</label>
+  <input type="text" id="manualFoodInput" placeholder="Inizia a scrivere per cercare..." autocomplete="off">
+  <div id="manualFoodSuggestions" class="suggestion-box"></div>
+</div>
+
+
+                    <div class="form-group">
+                        <label>Quantità:</label>
+                        <input type="text" id="manualQuantity">
+                    </div>
+		<div class="form-group">
+                        <select type="text" id="manualUnit">
+<option value="g">g</option>
+      <option value="ml">ml</option>
+      <option value="pz">pz</option>
+      <option value="-">-</option>
+</select>
+                    </div>
+                    <div class="form-group">
+                        <label>Reparto:</label>
+                        <select id="manualDeptSelect"></select>
+                    </div>
+                    <button onclick="addManualItem()">➕ Aggiungi</button>
+                </div>
+            </div>
+
+
+            <div class="section" id="finalListSection">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+                    <h2 style="margin: 0;">📋 Lista della Spesa</h2>
+                    <button onclick="clearSavedList()">Cancella lista salvata</button>
+                </div>
+                <div id="finalList"></div>
+                <div style="display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
+                    <button onclick="printList()">🖨️ Stampa Lista</button>
+                    <button onclick="exportToImage()" class="btn-success">🖼️ Esporta Immagine</button>
+                    <button onclick="exportToText()" class="btn-success">📝 Esporta Testo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  <!-- Importa gli script JavaScript -->
+  <!-- Libraries for export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/diet.js"></script>
+  <script src="js/shopping.js"></script>
+  <script src="js/config.js"></script>
+</body>
+</html>
